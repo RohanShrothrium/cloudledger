@@ -31,6 +31,10 @@ This platform exploits the security of blockchain to provide an interface betwee
 - The list of service providers is accessible by everyone on the UI and is centralised. This data can be manipulated such that the future uploads by a user are funneled into an adversarial computer. We plan to solve this issue by introducing a third ledger which is accessible to the first chaincode. 
 
 ### Useful resources to understand hyperledger fabric
+#### Official documentation
 - https://hyperledger-fabric.readthedocs.io/en/release-1.4/whatis.html
+#### Setting up the network
 - https://medium.freecodecamp.org/how-to-build-a-blockchain-network-using-hyperledger-fabric-and-composer-e06644ff801d
 - https://www.youtube.com/watch?v=MPNkUqOKhVE&list=PLjsqymUqgpSTGC4L6ULHCB_Mqmy43OcIh
+#### For writing chiancode in Golang
+- https://www.ibm.com/developerworks/cloud/library/cl-ibm-blockchain-chaincode-development-using-golang/cl-ibm-blockchain-chaincode-development-using-golang-pdf.pdf
