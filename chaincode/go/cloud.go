@@ -7,6 +7,7 @@ import (
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	pb "github.com/hyperledger/fabric/protos/peer"
 )
+import "strconv"
 var (
 	fileName = "cloud"
 )
@@ -36,14 +37,12 @@ func (t *CloudChaincode) Init(stub shim.ChaincodeStubInterface)pb.Response{
 
 // invoking functions
 func  (t *CloudChaincode) Invoke(stub shim.ChaincodeStubInterface)pb.Response{
-	fmt.Println("Entering Invoke")
-
 	// IF-ELSE-IF all the functions 
 	function, args := stub.GetFunctionAndParameters()
 	if function == "CreateUser" {
 		return t.CreateUser(stub, args)
-	// }else if function == "UploadFile" {
-	// 	return t.UploadFile(stub, args)
+	}else if function == "UploadFile" {
+		return t.UploadFile(stub, args)
 	}else if function == "DownloadFile" {
 		return t.DownloadFile(stub, args)
 	}
@@ -77,41 +76,42 @@ func  (t *CloudChaincode) CreateUser(stub shim.ChaincodeStubInterface, args []st
 }
 
 // Uploading a file
-// func  (t *CloudChaincode) UploadFile(stub shim.ChaincodeStubInterface, args []string)pb.Response{
-// 	var CompositeKey = args[0]
-// 	DataAsBytes, err := stub.GetState(CompositeKey)
-// 	if err != nil {
-// 		return shim.Error("Failed to get CompositeKey:" + err.Error())
-// 	}else if DataAsBytes == nil{
-// 		return shim.Error("Unkown composite key")
-// 	}
-// 	var SecretKey = args[1]
-// 	var N = len(args)
-// 	var count = 1
-// 	for i := 2; i < N; i++ {
-// 		k, err := strconv.Atoi("args[i]")
-// 		if err != nil {
-
-// 		}
-// 	}
-// 	var FileDataNew = &FileData{SecretKey:SecretKey, ServiceProviderMap:ServiceProviderMap}
-// 	var Data Data
-// 	err = json.Unmarshal(DataAsBytes, &Data)
-// 	if err != nil {
-// 		return shim.Error("Error encountered during unmarshalling the data")
-// 	}
-// 	Data.FileData[SecretKey] = *FileDataNew
-// 	DataJsonAsBytes, err :=json.Marshal(Data)
-// 	if err != nil {
-// 		return shim.Error("Error encountered while remarshalling")
-// 	}
-// 	err = stub.PutState(CompositeKey, DataJsonAsBytes)
-// 	if err != nil {
-// 		return shim.Error("error encountered while putting state")
-// 	}
-// 	fmt.Println("File uploaded successfully")
-// 	return shim.Success(nil)
-// }
+func  (t *CloudChaincode) UploadFile(stub shim.ChaincodeStubInterface, args []string)pb.Response{
+	var CompositeKey = args[0]
+	DataAsBytes, err := stub.GetState(CompositeKey)
+	if err != nil {
+		return shim.Error("Failed to get CompositeKey:" + err.Error())
+	}else if DataAsBytes == nil{
+		return shim.Error("Unkown composite key")
+	}
+	var ServiceProviderMap map[int]string
+	var SecretKey = args[1]
+	var N = len(args)
+	var count = 1
+	for i := 2; i < N; i++ {
+		k, err := strconv.Atoi("args[i]")
+		if err != nil {
+			ServiceProviderMap[count] = args[i]
+		}else {k = k + 1}	
+	}
+	var FileDataNew = &FileData{SecretKey:SecretKey, ServiceProviderMap:ServiceProviderMap}
+	var Data Data
+	err = json.Unmarshal(DataAsBytes, &Data)
+	if err != nil {
+		return shim.Error("Error encountered during unmarshalling the data")
+	}
+	Data.FileData[SecretKey] = *FileDataNew
+	DataJsonAsBytes, err :=json.Marshal(Data)
+	if err != nil {
+		return shim.Error("Error encountered while remarshalling")
+	}
+	err = stub.PutState(CompositeKey, DataJsonAsBytes)
+	if err != nil {
+		return shim.Error("error encountered while putting state")
+	}
+	fmt.Println("File uploaded successfully")
+	return shim.Success(nil)
+}
 
 // Downloading a file
 func  (t *CloudChaincode) DownloadFile(stub shim.ChaincodeStubInterface, args []string)pb.Response{
