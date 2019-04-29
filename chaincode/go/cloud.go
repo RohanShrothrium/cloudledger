@@ -84,24 +84,36 @@ func  (t *CloudChaincode) UploadFile(stub shim.ChaincodeStubInterface, args []st
 	}else if DataAsBytes == nil{
 		return shim.Error("Unkown composite key")
 	}
-	var ServiceProviderMap map[int]string
+	ServiceProviderMap := make(map[int]string)
 	var SecretKey = args[1]
 	var N = len(args)
+	fmt.Println(N)
 	var count = 1
 	for i := 2; i < N; i++ {
-		k, err := strconv.Atoi("args[i]")
+		k, err := strconv.Atoi(args[i])
 		if err != nil {
 			ServiceProviderMap[count] = args[i]
-		}else {k = k + 1}	
+		}else {
+			count = k
+		}	
 	}
+	fmt.Println(ServiceProviderMap)
 	var FileDataNew = &FileData{SecretKey:SecretKey, ServiceProviderMap:ServiceProviderMap}
+	fmt.Println(FileDataNew)
 	var Data Data
 	err = json.Unmarshal(DataAsBytes, &Data)
 	if err != nil {
 		return shim.Error("Error encountered during unmarshalling the data")
 	}
-	Data.FileData[SecretKey] = *FileDataNew
+	if Data.FileData == nil {
+		FileDataUploaded := make(map[string]FileData)
+		FileDataUploaded[SecretKey] = *FileDataNew
+		Data.FileData = FileDataUploaded
+	}else{
+		Data.FileData[SecretKey] = *FileDataNew
+	}
 	DataJsonAsBytes, err :=json.Marshal(Data)
+	fmt.Println(Data)
 	if err != nil {
 		return shim.Error("Error encountered while remarshalling")
 	}
