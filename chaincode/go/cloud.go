@@ -19,13 +19,19 @@ type CloudChaincode struct{
 // Data regarding where the file is stored
 type FileData struct{
 	SecretKey string `json:"SecretKey"`
-	ServiceProviderMap map[int]string
+	ServiceProviderMap map[int][]string
 }
 
 //structure of data 
 type Data struct{
 	CompositeKey string `json:"CompositeKey"`
 	PublicKey string `json:"PublicKey"`
+	FileData map[string]FileData `json:"FileData"`
+}
+
+//structure for sharing data
+type ShareData struct{
+	EdgeKey string `json:"EdgeKey"`
 	FileData map[string]FileData `json:"FileData"`
 }
 
@@ -84,7 +90,7 @@ func  (t *CloudChaincode) UploadFile(stub shim.ChaincodeStubInterface, args []st
 	}else if DataAsBytes == nil{
 		return shim.Error("Unkown composite key")
 	}
-	ServiceProviderMap := make(map[int]string)
+	ServiceProviderMap := make(map[int][]string)
 	var SecretKey = args[1]
 	var N = len(args)
 	fmt.Println(N)
@@ -92,7 +98,7 @@ func  (t *CloudChaincode) UploadFile(stub shim.ChaincodeStubInterface, args []st
 	for i := 2; i < N; i++ {
 		k, err := strconv.Atoi(args[i])
 		if err != nil {
-			ServiceProviderMap[count] = args[i]
+			ServiceProviderMap[count] = append(ServiceProviderMap[count],args[i])
 		}else {
 			count = k
 		}	
@@ -148,6 +154,59 @@ func  (t *CloudChaincode) DownloadFile(stub shim.ChaincodeStubInterface, args []
 		return shim.Error("Error encountered")
 	}
 	return shim.Success(FileJsonAsBytes)
+}
+
+// Deleting a file 
+func  (t *CloudChaincode) DeleteFile(stub shim.ChaincodeStubInterface, args []string)pb.Response{
+	if len(args) != 2 {
+		fmt.Println("Incorrect number of arguments")
+		return shim.Error("Error encountered")
+	}
+	var CompositeKey = args[0]
+	var SecretKey = args[1]
+	DataAsBytes, err := stub.GetState(CompositeKey)
+	if err != nil {
+		return shim.Error("Error encountered")
+	}else if DataAsBytes == nil {
+		return shim.Error("No user with the given CompositeKey")
+	}
+	var Data Data
+	err = json.Unmarshal(DataAsBytes, &Data)
+	// 
+	// CHECK THIS OUT
+	Data.FileData[SecretKey] = []
+	DataJsonAsBytes, err :=json.Marshal(Data)
+	fmt.Println(Data)
+	if err != nil {
+		return shim.Error("Error encountered while remarshalling")
+	}
+	err = stub.PutState(CompositeKey, DataJsonAsBytes)
+	if err != nil {
+		return shim.Error("error encountered while putting state")
+	}
+	fmt.Println("File uploaded successfully")
+	return shim.Success(nil)
+}
+
+// Sharing a file
+func  (t *CloudChaincode) ShareFile(stub shim.ChaincodeStubInterface, args []string)pb.Response{
+	if len(args) != 3 {
+		fmt.Println("Incorrect number of arguments")
+		return shim.Error("Error encountered")
+	}
+	var CompositeKey = args[0]
+	var SecretKey = args[1]
+	var EdgeKey = args[2]
+	DataAsBytes, err := stub.GetState(CompositeKey)
+	if err != nil {
+		return shim.Error("Error encountered")
+	}else if DataAsBytes == nil {
+		return shim.Error("No user with the given CompositeKey")
+	}
+	var Data Data
+	err = json.Unmarshal(DataAsBytes, &Data)
+	////////////////////////////
+	// Check this out fully
 }
 
 // MAIN FUNCTION
