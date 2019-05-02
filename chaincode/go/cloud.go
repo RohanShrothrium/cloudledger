@@ -51,6 +51,8 @@ func  (t *CloudChaincode) Invoke(stub shim.ChaincodeStubInterface)pb.Response{
 		return t.UploadFile(stub, args)
 	}else if function == "DownloadFile" {
 		return t.DownloadFile(stub, args)
+	}else if function == "DeleteFile" {
+		return t.DeleteFile(stub, args)
 	}
 	fmt.Println("invoke did not find func : " + function) //error
 	return shim.Error("Received unknown function invocation")
@@ -174,7 +176,8 @@ func  (t *CloudChaincode) DeleteFile(stub shim.ChaincodeStubInterface, args []st
 	err = json.Unmarshal(DataAsBytes, &Data)
 	// 
 	// CHECK THIS OUT
-	Data.FileData[SecretKey] = []
+	delete(Data.FileData, SecretKey)
+
 	DataJsonAsBytes, err :=json.Marshal(Data)
 	fmt.Println(Data)
 	if err != nil {
@@ -188,26 +191,26 @@ func  (t *CloudChaincode) DeleteFile(stub shim.ChaincodeStubInterface, args []st
 	return shim.Success(nil)
 }
 
-// Sharing a file
-func  (t *CloudChaincode) ShareFile(stub shim.ChaincodeStubInterface, args []string)pb.Response{
-	if len(args) != 3 {
-		fmt.Println("Incorrect number of arguments")
-		return shim.Error("Error encountered")
-	}
-	var CompositeKey = args[0]
-	var SecretKey = args[1]
-	var EdgeKey = args[2]
-	DataAsBytes, err := stub.GetState(CompositeKey)
-	if err != nil {
-		return shim.Error("Error encountered")
-	}else if DataAsBytes == nil {
-		return shim.Error("No user with the given CompositeKey")
-	}
-	var Data Data
-	err = json.Unmarshal(DataAsBytes, &Data)
-	////////////////////////////
-	// Check this out fully
-}
+// // Sharing a file
+// func  (t *CloudChaincode) ShareFile(stub shim.ChaincodeStubInterface, args []string)pb.Response{
+// 	if len(args) != 3 {
+// 		fmt.Println("Incorrect number of arguments")
+// 		return shim.Error("Error encountered")
+// 	}
+// 	var CompositeKey = args[0]
+// 	var SecretKey = args[1]
+// 	var EdgeKey = args[2]
+// 	DataAsBytes, err := stub.GetState(CompositeKey)
+// 	if err != nil {
+// 		return shim.Error("Error encountered")
+// 	}else if DataAsBytes == nil {
+// 		return shim.Error("No user with the given CompositeKey")
+// 	}
+// 	var Data Data
+// 	err = json.Unmarshal(DataAsBytes, &Data)
+// 	////////////////////////////
+// 	// Check this out fully
+// }
 
 // MAIN FUNCTION
 func  main() {
