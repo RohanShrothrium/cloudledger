@@ -3,9 +3,9 @@ import subprocess
 import codecs
 import pyAesCrypt
 import base64
-f = open("edu.jpg")
+
 # Take input of file name
-filename = "edu.jpg"
+filename = input("Enter file name : ")
 # encryption/decryption buffer size - 64K
 bufferSize = 64 * 1024
 # file information
