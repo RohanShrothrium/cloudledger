@@ -53,6 +53,8 @@ func  (t *CloudChaincode) Invoke(stub shim.ChaincodeStubInterface)pb.Response{
 		return t.DownloadFile(stub, args)
 	}else if function == "DeleteFile" {
 		return t.DeleteFile(stub, args)
+	}else if function == "ShareFile" {
+		return t.ShareFile(stub, args)
 	}
 	fmt.Println("invoke did not find func : " + function) //error
 	return shim.Error("Received unknown function invocation")
@@ -191,26 +193,49 @@ func  (t *CloudChaincode) DeleteFile(stub shim.ChaincodeStubInterface, args []st
 	return shim.Success(nil)
 }
 
-// // Sharing a file
-// func  (t *CloudChaincode) ShareFile(stub shim.ChaincodeStubInterface, args []string)pb.Response{
-// 	if len(args) != 3 {
-// 		fmt.Println("Incorrect number of arguments")
-// 		return shim.Error("Error encountered")
-// 	}
-// 	var CompositeKey = args[0]
-// 	var SecretKey = args[1]
-// 	var EdgeKey = args[2]
-// 	DataAsBytes, err := stub.GetState(CompositeKey)
-// 	if err != nil {
-// 		return shim.Error("Error encountered")
-// 	}else if DataAsBytes == nil {
-// 		return shim.Error("No user with the given CompositeKey")
-// 	}
-// 	var Data Data
-// 	err = json.Unmarshal(DataAsBytes, &Data)
-// 	////////////////////////////
-// 	// Check this out fully
-// }
+// Sharing a file
+func  (t *CloudChaincode) ShareFile(stub shim.ChaincodeStubInterface, args []string)pb.Response{
+	if len(args) != 3 {
+		fmt.Println("Incorrect number of arguments")
+		return shim.Error("Error encountered")
+	}
+	var CompositeKey = args[0]
+	var SecretKey = args[1]
+	var EdgeKey = args[2]
+	DataAsBytes, err := stub.GetState(CompositeKey)
+	if err != nil {
+		return shim.Error("Error encountered")
+	}else if DataAsBytes == nil {
+		return shim.Error("No user with the given CompositeKey")
+	}
+	var Data Data
+	var ShareData ShareData
+	err = json.Unmarshal(DataAsBytes, &Data)
+	ShareDataAsBytes, err := stub.GetState(EdgeKey)
+	if err != nil {
+		return shim.Error("Error encountered")
+	}else if ShareDataAsBytes == nil {
+		ShareData.EdgeKey = EdgeKey
+		FileDataShare := make(map[string]FileData)
+		FileDataShare[SecretKey] = Data.FileData[SecretKey]
+		ShareData.FileData = FileDataShare
+	}else if ShareDataAsBytes != nil {
+		err = json.Unmarshal(ShareDataAsBytes, &ShareData)
+		ShareData.FileData[SecretKey] = Data.FileData[SecretKey]
+	}
+		
+	ShareDataJsonAsBytes, err := json.Marshal(ShareData)
+	fmt.Println(ShareData)
+	if err != nil {
+		return shim.Error("Error encountered while remarshalling")
+	}
+	err = stub.PutState(EdgeKey, ShareDataJsonAsBytes)
+	if err != nil {
+		return shim.Error("error encountered while putting state")
+	}
+	fmt.Println("File shared successfully")
+	return shim.Success(nil)
+}
 
 // MAIN FUNCTION
 func  main() {

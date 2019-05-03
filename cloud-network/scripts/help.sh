@@ -9,3 +9,4 @@ CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypt
 CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 export CHANNEL_NAME=mychannel
 peer chaincode invoke -o orderer.example.com:7050 --tls true --cafile $ORDERER_CA -C mychannel -n mycc --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE  -c '{"Args":["DownloadFile","composite_key","secret_key"]}'
+peer chaincode invoke -o orderer.example.com:7050 --tls true --cafile $ORDERER_CA -C mychannel -n mycc --peerAddresses $CORE_PEER_ADDRESS --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE  -c '{"Args":["UploadFile","composite_key","secret_key","1","10.250.1.99","2","10.250.1.95","1","10.250.1.96","2","10.250.1.97","3","10.250.1.98"]}'
