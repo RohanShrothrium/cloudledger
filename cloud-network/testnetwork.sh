@@ -43,3 +43,4 @@ echo "           Setting up Network             "
 echo "=========================================="
 export IMAGE_TAG=latest
 docker-compose -f docker-compose-cli.yaml up -d
+docker exec cli scripts/functions.sh
