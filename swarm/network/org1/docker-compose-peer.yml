@@ -17,7 +17,7 @@ services:
                 max_attempts: 3
             placement:
                 constraints:
-                    - node.hostname == deepak-HP-Pavilion-Notebook
+                    - node.hostname == $ORG1_HOSTNAME
         image: hyperledger/fabric-peer:latest
         hostname: peer0.org1.example.com
         environment:
@@ -74,7 +74,7 @@ services:
                 max_attempts: 3
             placement:
                 constraints:
-                    - node.hostname == deepak-HP-Pavilion-Notebook
+                    - node.hostname == $ORG1_HOSTNAME_PEER1
         image: hyperledger/fabric-peer:latest
         hostname: peer1.org1.example.com
         environment:
