@@ -4,15 +4,9 @@ OrdererOrgs:
     Specs:
       - Hostname: orderer
     Template:
-      Count: 4
+      Count: 1
     Specs:
       - Hostname: orderer0
-      - Hostname: orderer1
-      - Hostname: orderer2
-      - Hostname: orderer3
-      - Hostname: orderer4
-      - Hostname: orderer5
-      - Hostname: orderer6
           
 PeerOrgs:
   - Name: Org1
@@ -49,22 +43,6 @@ PeerOrgs:
 
   - Name: Org5
     Domain: org5.example.com
-    EnableNodeOUs: true
-    Template:
-      Count: 2
-    Users:
-      Count: 1
-
-  - Name: org6
-    Domain: org6.example.com
-    EnableNodeOUs: true
-    Template:
-      Count: 2
-    Users:
-      Count: 1
-  
-  - Name: org7
-    Domain: org7.example.com
     EnableNodeOUs: true
     Template:
       Count: 2

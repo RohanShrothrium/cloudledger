@@ -15,9 +15,9 @@ Profiles:
                 Organizations:
                     - *Org1
                     - *Org2
-                    # - *Org3
-                    # - *Org4
-                    # - *Org5
+                    - *Org3
+                    - *Org4
+                    - *Org5
                     # - *Org6
                     # - *Org7
     
@@ -28,9 +28,9 @@ Profiles:
             Organizations:
                 - *Org1
                 - *Org2
-                # - *Org3
-                # - *Org4
-                # - *Org5
+                - *Org3
+                - *Org4
+                - *Org5
                 # - *Org6
                 # - *Org7
             
@@ -59,28 +59,28 @@ Organizations:
             - Host: peer0.org2.example.com
               Port: 7051              
 
-    # - &Org3
-    #     Name: Org3MSP
-    #     ID: Org3MSP
-    #     MSPDir: crypto-config/peerOrganizations/org3.example.com/msp
-    #     AnchorPeers:
-    #         - Host: peer0.org3.example.com
-    #           Port: 7051
+    - &Org3
+        Name: Org3MSP
+        ID: Org3MSP
+        MSPDir: crypto-config/peerOrganizations/org3.example.com/msp
+        AnchorPeers:
+            - Host: peer0.org3.example.com
+              Port: 7051
 
-    # - &Org4
-    #     Name: Org4MSP
-    #     ID: Org4MSP
-    #     MSPDir: crypto-config/peerOrganizations/org4.example.com/msp
-    #     AnchorPeers:
-    #         - Host: peer0.org4.example.com
-    #           Port: 7051
-    # - &Org5
-    #     Name: Org5MSP
-    #     ID: Org5MSP
-    #     MSPDir: crypto-config/peerOrganizations/org5.example.com/msp
-    #     AnchorPeers:
-    #         - Host: peer0.org5.example.com
-    #           Port: 7051              
+    - &Org4
+        Name: Org4MSP
+        ID: Org4MSP
+        MSPDir: crypto-config/peerOrganizations/org4.example.com/msp
+        AnchorPeers:
+            - Host: peer0.org4.example.com
+              Port: 7051
+    - &Org5
+        Name: Org5MSP
+        ID: Org5MSP
+        MSPDir: crypto-config/peerOrganizations/org5.example.com/msp
+        AnchorPeers:
+            - Host: peer0.org5.example.com
+              Port: 7051              
 
     # - &Org6
     #     Name: Org6MSP
@@ -102,7 +102,7 @@ Orderer: &OrdererDefaults
     OrdererType: kafka
     Addresses:
         - orderer0.example.com:7050
-        - orderer1.example.com:7050
+        # - orderer1.example.com:7050
         # - orderer2.example.com:7050
         # - orderer3.example.com:7050
         # - orderer4.example.com:7050
