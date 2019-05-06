@@ -35,8 +35,7 @@ services:
         volumes:
             - /var/mynetwork/certs/crypto-config/peerOrganizations/org1.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
 
-    
-    cli1_2:
+    cli1:
         deploy:
             replicas: 1
             restart_policy:
@@ -48,56 +47,14 @@ services:
                     - node.hostname == $ORG1_HOSTNAME
         image: hyperledger/fabric-tools:latest
         tty: true
-        hostname: cli1_2
+        hostname: cli1
         environment:
           - ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer0.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
           - ORDERER_NAME=orderer1.example.com
           - GOPATH=/opt/gopath
           - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
           - FABRIC_LOGGING_SPEC=INFO
-          - CORE_PEER_ID=cli1_2.org1.example.com
-          - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
-          - CORE_PEER_LOCALMSPID=Org1MSP
-          - CORE_CHAINCODE_KEEPALIVE=10
-          - CORE_PEER_TLS_ENABLED=true
-          - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.crt
-          - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/server.key
-          - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
-          - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
-          
-        working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
-        command: /bin/bash
-        volumes:
-            - /var/run/:/host/var/run/
-            - /var/mynetwork/chaincode:/opt/gopath/src/github.com/chaincode
-            - /var/mynetwork/fabric-src/hyperledger/fabric:/opt/gopath/src/github.com/hyperledger/fabric
-            - /var/mynetwork/certs/crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto
-            - /var/mynetwork/certs/config:/var/hyperledger/config
-            - /var/mynetwork/bin/:/var/bin
-            # - /var/mynetwork/bin/jq:/usr/local/bin/jq
-        networks:
-            - skcript
-
-    cli1_1:
-        deploy:
-            replicas: 1
-            restart_policy:
-                condition: on-failure
-                delay: 5s
-                max_attempts: 3
-            placement:
-                constraints:
-                    - node.hostname == $ORG1_HOSTNAME_PEER1
-        image: hyperledger/fabric-tools:latest
-        tty: true
-        hostname: cli1_1
-        environment:
-          - ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer0.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
-          - ORDERER_NAME=orderer1.example.com
-          - GOPATH=/opt/gopath
-          - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-          - FABRIC_LOGGING_SPEC=INFO
-          - CORE_PEER_ID=cli1_1.org1.example.com
+          - CORE_PEER_ID=cli1.org1.example.com
           - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
           - CORE_PEER_LOCALMSPID=Org1MSP
           - CORE_CHAINCODE_KEEPALIVE=10
@@ -144,7 +101,7 @@ services:
                 max_attempts: 3
             placement:
                 constraints:
-                    - node.hostname == $ORG1_HOSTNAME_PEER1
+                    - node.hostname == $ORG1_HOSTNAME
         image: hyperledger/fabric-couchdb:latest
         hostname: couchdb1_org1
         networks:

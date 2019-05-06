@@ -8,11 +8,11 @@ networks:
 
 services:
 
-    ca_org2:
+    ca_org4:
         networks:
             skcript:
                 aliases:
-                    - ca_org2
+                    - ca_org4
         deploy:
             replicas: 1
             restart_policy:
@@ -21,22 +21,22 @@ services:
                 max_attempts: 3
             placement:
                 constraints:
-                    - node.hostname == $ORG2_HOSTNAME
+                    - node.hostname == $ORG4_HOSTNAME
         image: hyperledger/fabric-ca:latest
-        hostname: ca.org2.example.com
+        hostname: ca.org4.example.com
         environment:
             - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
-            - FABRIC_CA_SERVER_CA_NAME=ca_org2
-            - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem
+            - FABRIC_CA_SERVER_CA_NAME=ca_org4
+            - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org4.example.com-cert.pem
             - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/50415243691563f5071fec926fd998e37cd4f7670511cee352e6e14c70321e63_sk
         ports:
             - "8054:7054"   
         command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
         volumes:
-            - /var/mynetwork/certs/crypto-config/peerOrganizations/org2.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+            - /var/mynetwork/certs/crypto-config/peerOrganizations/org4.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
 
     
-    cli2:
+    cli4:
         deploy:
             replicas: 1
             restart_policy:
@@ -45,25 +45,25 @@ services:
                 max_attempts: 3
             placement:
                 constraints:
-                    - node.hostname == $ORG2_HOSTNAME
+                    - node.hostname == $ORG4_HOSTNAME
         image: hyperledger/fabric-tools:latest
         tty: true
-        hostname: cli2
+        hostname: cli4
         environment:
           - ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer1.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
           - ORDERER_NAME=orderer1.example.com
           - GOPATH=/opt/gopath
           - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
           - FABRIC_LOGGING_SPEC=INFO
-          - CORE_PEER_ID=cli2.org2.example.com
-          - CORE_PEER_ADDRESS=peer0.org2.example.com:7051
-          - CORE_PEER_LOCALMSPID=Org2MSP
+          - CORE_PEER_ID=cli4.org4.example.com
+          - CORE_PEER_ADDRESS=peer0.org4.example.com:7051
+          - CORE_PEER_LOCALMSPID=Org4MSP
           - CORE_CHAINCODE_KEEPALIVE=10
           - CORE_PEER_TLS_ENABLED=true
-          - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/server.crt
-          - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/server.key
-          - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
-          - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
+          - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org4.example.com/peers/peer0.org4.example.com/tls/server.crt
+          - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org4.example.com/peers/peer0.org4.example.com/tls/server.key
+          - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org4.example.com/peers/peer0.org4.example.com/tls/ca.crt
+          - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org4.example.com/users/Admin@org4.example.com/msp
           
         working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
         command: /bin/bash
@@ -78,7 +78,7 @@ services:
         networks:
             - skcript
 
-    couchdb0_org2:
+    couchdb0_org4:
         deploy:
             replicas: 1
             restart_policy:
@@ -87,13 +87,13 @@ services:
                 max_attempts: 3
             placement:
                 constraints:
-                    - node.hostname == $ORG2_HOSTNAME
+                    - node.hostname == $ORG4_HOSTNAME
         image: hyperledger/fabric-couchdb:latest
-        hostname: couchdb0_org2
+        hostname: couchdb0_org4
         networks:
            - skcript        
 
-    couchdb1_org2:
+    couchdb1_org4:
         deploy:
             replicas: 1
             restart_policy:
@@ -102,8 +102,8 @@ services:
                 max_attempts: 3
             placement:
                 constraints:
-                    - node.hostname == $ORG2_HOSTNAME
+                    - node.hostname == $ORG4_HOSTNAME
         image: hyperledger/fabric-couchdb:latest
-        hostname: couchdb1_org2
+        hostname: couchdb1_org4
         networks:
            - skcript
