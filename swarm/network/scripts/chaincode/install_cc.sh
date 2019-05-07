@@ -31,7 +31,7 @@ docker exec -e "CORE_PEER_LOCALMSPID=Org5MSP" -e "CORE_PEER_TLS_CERT_FILE=/opt/g
 # ===========================
 # INSTANTIATING THE CHAINCODE
 # ===========================
-docker exec "$CLI_NAME" peer chaincode instantiate -o "$ORDERER_NAME":7050 -C "$CHANNEL_NAME" -n "$CC_NAME" "$CC_SRC" -v v0  -c '{"Args":[]}' -P "OR('Org1MSP.member', 'Org2MSP.member')" --tls --cafile $ORDERER_CA
+docker exec "$CLI_NAME" peer chaincode instantiate -o "$ORDERER_NAME":7050 -C "$CHANNEL_NAME" -n "$CC_NAME" "$CC_SRC" -v v0  -c '{"Args":[]}' -P "AND('Org1MSP.member', 'Org2MSP.member')" --tls --cafile $ORDERER_CA
 
 sleep 3
 
