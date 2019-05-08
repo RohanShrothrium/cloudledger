@@ -1,0 +1,12 @@
+{
+    "channels": {
+        "mychannel": {
+            "orderers": [
+                "orderer.example.com"
+            ],
+            "peers": {
+                
+            }
+        }
+    }
+}
