@@ -18,16 +18,16 @@ setGlobals() {
     if [ $PEER -eq 0 ]; then
       CORE_PEER_ADDRESS=peer0.org1.example.com:7051
     else
-      CORE_PEER_ADDRESS=peer1.org1.example.com:7051
+      CORE_PEER_ADDRESS=peer1.org1.example.com:8051
     fi
   elif [ $ORG -eq 2 ]; then
     CORE_PEER_LOCALMSPID="Org2MSP"
     CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG2_CA
     CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
     if [ $PEER -eq 0 ]; then
-      CORE_PEER_ADDRESS=peer0.org2.example.com:7051
+      CORE_PEER_ADDRESS=peer0.org2.example.com:9051
     else
-      CORE_PEER_ADDRESS=peer1.org2.example.com:7051
+      CORE_PEER_ADDRESS=peer1.org2.example.com:10051
     fi
 
   elif [ $ORG -eq 3 ]; then
@@ -35,9 +35,9 @@ setGlobals() {
     CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG3_CA
     CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/users/Admin@org3.example.com/msp
     if [ $PEER -eq 0 ]; then
-      CORE_PEER_ADDRESS=peer0.org3.example.com:7051
+      CORE_PEER_ADDRESS=peer0.org3.example.com:11051
     else
-      CORE_PEER_ADDRESS=peer1.org3.example.com:7051
+      CORE_PEER_ADDRESS=peer1.org3.example.com:12051
     fi
   else
     echo "================== ERROR !!! ORG Unknown =================="
@@ -67,6 +67,21 @@ joinChannel(){
       echo "================================================="
       setGlobals $peer $org
       peer channel join -b $CHANNEL_NAME.block
+      res=$?
+      if [ $res -ne 0 ]; then
+      sleep 3
+        peer channel join -b $CHANNEL_NAME.block
+        res=$?
+        if [ $res -ne 0 ]; then
+          sleep 3
+          peer channel join -b $CHANNEL_NAME.block
+          res=$?
+          if [ $res -ne 0 ]; then
+            sleep 3
+            peer channel join -b $CHANNEL_NAME.block
+          fi
+        fi
+      fi
       sleep 5
       echo $org$peer "joined the channel."
     done
@@ -92,7 +107,7 @@ updateAnchorPeers(){
 
 # Installing Chaincodes on each peer 
 installChaincode(){
-    export CHANNEL_NAME=mychannelloud/go/
+    export CHANNEL_NAME=mychannel
     echo "INSTALLING CHAINCODE"
     echo ""
     for org in 1 2 3; do
@@ -108,7 +123,7 @@ installChaincode(){
 
 # Instantiating installed chaincode
 instantiateChaincode(){
-    export CHANNEL_NAME=mychannel
+  export CHANNEL_NAME=mychannel
 	setGlobals 0 1
     echo "================================================="
     echo "            INSTANTIATING CHAINCODE              "

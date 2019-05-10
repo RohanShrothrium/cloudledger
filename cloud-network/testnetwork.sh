@@ -38,6 +38,9 @@ echo "Org3......."
 ./configtxgen -profile TwoOrgsChannel -outputAnchorPeersUpdate ./channel-artifacts/Org3MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Org3MSP
 
 # Setting up the network using docker compose
+for i in {1..3}; do
+     export BYFN_CA"${i}"_PRIVATE_KEY=$(ls crypto-config/peerOrganizations/org${i}.example.com/ca/ | grep _sk)
+done
 echo "=========================================="
 echo "           Setting up Network             "
 echo "=========================================="
