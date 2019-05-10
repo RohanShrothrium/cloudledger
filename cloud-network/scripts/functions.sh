@@ -128,7 +128,7 @@ instantiateChaincode(){
     echo "================================================="
     echo "            INSTANTIATING CHAINCODE              "
     echo "================================================="
-    peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc -l node -v 1.0 -c '{"Args":["init"]}' -P "OR ('Org1MSP.peer','Org2MSP.peer','Org3MSP.peer')"            
+    peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc -l node -v 1.0 -c '{"Args":["init"]}' -P "AND ('Org1MSP.peer','Org2MSP.peer','Org3MSP.peer')"            
 }
 
 # setting globals
