@@ -57,7 +57,7 @@ Organizations:
         MSPDir: crypto-config/peerOrganizations/org2.example.com/msp
         AnchorPeers:
             - Host: peer0.org2.example.com
-              Port: 7051              
+              Port: 9051              
 
     - &Org3
         Name: Org3MSP
@@ -65,7 +65,7 @@ Organizations:
         MSPDir: crypto-config/peerOrganizations/org3.example.com/msp
         AnchorPeers:
             - Host: peer0.org3.example.com
-              Port: 7051
+              Port: 11051
 
     - &Org4
         Name: Org4MSP
@@ -73,14 +73,14 @@ Organizations:
         MSPDir: crypto-config/peerOrganizations/org4.example.com/msp
         AnchorPeers:
             - Host: peer0.org4.example.com
-              Port: 7051
+              Port: 13051
     - &Org5
         Name: Org5MSP
         ID: Org5MSP
         MSPDir: crypto-config/peerOrganizations/org5.example.com/msp
         AnchorPeers:
             - Host: peer0.org5.example.com
-              Port: 7051              
+              Port: 15051              
 
     # - &Org6
     #     Name: Org6MSP

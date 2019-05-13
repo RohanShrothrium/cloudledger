@@ -37,7 +37,7 @@ async function main() {
         // Submit the specified transaction.
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
-        await contract.submitTransaction('UploadFile', 'composite_key_deepak', 'sec_key_poopak','1','10.250.1.99','4','10.50.1.99','1','10.25.1.99','3','10.250.1.96','2','11.250.1.99');
+        await contract.submitTransaction('CreateUser', 'composite_key_deepak', 'public_key_deepak');
         console.log('Transaction has been submitted');
 
         // Disconnect from the gateway.
