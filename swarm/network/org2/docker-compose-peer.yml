@@ -40,7 +40,7 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/var/hyperledger/tls/ca.crt
-      # - CORE_PEER_CHAINCODELISTENADDRESS=peer0.org2.example.com:9052
+      - CORE_PEER_CHAINCODELISTENADDRESS=peer0.org2.example.com:9052
       - CORE_PEER_ID=peer0.org2.example.com
       - CORE_PEER_ADDRESS=peer0.org2.example.com:9051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
@@ -100,7 +100,7 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/var/hyperledger/tls/ca.crt
-      # - CORE_PEER_CHAINCODELISTENADDRESS=peer1.org2.example.com:10052
+      - CORE_PEER_CHAINCODELISTENADDRESS=peer1.org2.example.com:10052
       - CORE_PEER_LISTENADDRESS=0.0.0.0:10051
       - CORE_PEER_ID=peer1.org2.example.com
       - CORE_PEER_ADDRESS=peer1.org2.example.com:10051
