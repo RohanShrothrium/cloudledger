@@ -33,11 +33,11 @@ services:
       - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/tls/server.crt
       - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/tls/ca.crt]
       - ORDERER_HOME=/var/hyperledger/orderer
-      - ORDERER_GENERAL_LISTENPORT=7050
+      - ORDERER_GENERAL_LISTENPORT=10050
       - ORDERER_GENERAL_LEDGERTYPE=ram
       - CONFIGTX_ORDERER_BATCHSIZE_MAXMESSAGECOUNT=10
       - CONFIGTX_ORDERER_BATCHTIMEOUT=2s
-      - CONFIGTX_ORDERER_ADDRESSES=[127.0.0.1:7050]
+      - CONFIGTX_ORDERER_ADDRESSES=[127.0.0.1:10050]
       - ORDERER_TLS_CLIENTAUTHREQUIRED=false
       - ORDERER_TLS_CLIENTROOTCAS_FILES=/var/hyperledger/users/Admin@example.com/tls/ca.crt
       - ORDERER_TLS_CLIENTCERT_FILE=/var/hyperledger/users/Admin@example.com/tls/client.crt
@@ -57,7 +57,7 @@ services:
       - /var/mynetwork/certs/crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls:/var/hyperledger/tls
       - /var/mynetwork/certs/config/:/var/hyperledger/config
     ports:
-      - 8050:7050
+      - 10050:10050
     networks:
       skcript:
         aliases:

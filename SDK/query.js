@@ -8,7 +8,7 @@ const { FileSystemWallet, Gateway } = require('fabric-network');
 const fs = require('fs');
 const path = require('path');
 
-const ccpPath = '/home/rohan/Documents/cloudledger/cloud-network/connection-org1.json';
+const ccpPath = '/home/rohan/Documents/cloudledger/swarm/network/connection-org1.json';
 const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
 const ccp = JSON.parse(ccpJSON);
 

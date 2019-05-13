@@ -7,7 +7,7 @@
 const { FileSystemWallet, Gateway } = require('fabric-network');
 const path = require('path');
 
-const ccpPath = '/home/rohan/Documents/cloudledger/cloud-network/connection-org1.json';
+const ccpPath = '/home/rohan/Documents/cloudledger/swarm/network/connection-org1.json';
 
 async function main() {
     try {
@@ -26,13 +26,13 @@ async function main() {
         }
         // Create a new gateway for connecting to our peer node.
         const gateway = new Gateway();
-        await gateway.connect(ccpPath, { wallet, identity: 'user1', discovery: { enabled: true, asLocalhost: true } });
+        await gateway.connect(ccpPath, { wallet, identity: 'user1', discovery: { enabled: true, asLocalhost: false } });
         // Get the network (channel) our contract is deployed to.
         const network = await gateway.getNetwork('mychannel');
         console.log(network)
         // console.log(network)
         // Get the contract from the network.
-        const contract = network.getContract('mycc');
+        const contract = network.getContract('simple');
         // console.log(contract)
         // Submit the specified transaction.
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')

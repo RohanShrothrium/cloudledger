@@ -9,7 +9,7 @@ const { FileSystemWallet, X509WalletMixin } = require('fabric-network');
 const fs = require('fs');
 const path = require('path');
 
-const ccpPath = '/home/rohan/Documents/cloudledger/cloud-network/connection-org1.json';
+const ccpPath = '/home/rohan/Documents/cloudledger/swarm/network/connection-org1.json';
 const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
 const ccp = JSON.parse(ccpJSON);
 
@@ -18,7 +18,7 @@ async function main() {
 
         // Create a new CA client for interacting with the CA.
         const caInfo = ccp.certificateAuthorities['ca.org1.example.com'];
-        const caTLSCACertsPath = path.join('/home/rohan/Documents/cloudledger/cloud-network', caInfo.tlsCACerts.path);
+        const caTLSCACertsPath = path.join('/home/rohan/Documents/cloudledger/swarm/network', caInfo.tlsCACerts.path);
         console.log(caTLSCACertsPath)
         const caTLSCACerts = fs.readFileSync(caTLSCACertsPath);
         const ca = new FabricCAServices(caInfo.url, { trustedRoots: caTLSCACerts, verify: false }, caInfo.caName);

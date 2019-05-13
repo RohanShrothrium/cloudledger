@@ -25,7 +25,7 @@
     },
     "peers": {
         "peer0.org5.example.com": {
-            "url": "grpcs://$ORG5_IP:13051",
+            "url": "grpcs://52.32.199.45:13051",
             "tlsCACerts": {
                 "path": "crypto-config/peerOrganizations/org5.example.com/tlsca/tlsca.org5.example.com-cert.pem"
             },
@@ -34,7 +34,7 @@
             }
         },
         "peer1.org5.example.com": {
-            "url": "grpcs://$ORG5_IP:14051",
+            "url": "grpcs://52.32.199.45:14051",
             "tlsCACerts": {
                 "path": "crypto-config/peerOrganizations/org5.example.com/tlsca/tlsca.org5.example.com-cert.pem"
             },
@@ -45,7 +45,7 @@
     },
     "certificateAuthorities": {
         "ca.org5.example.com": {
-            "url": "https://$ORG5_IP:10054",
+            "url": "https://52.32.199.45:10054",
             "caName": "ca-org5",
             "tlsCACerts": {
                 "path": "crypto-config/peerOrganizations/org5.example.com/tlsca/tlsca.org5.example.com-cert.pem"

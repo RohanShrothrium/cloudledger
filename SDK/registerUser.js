@@ -7,7 +7,7 @@
 const { FileSystemWallet, Gateway, X509WalletMixin } = require('fabric-network');
 const path = require('path');
 
-const ccpPath = '/home/rohan/Documents/cloudledger/cloud-network/connection-org1.json';
+const ccpPath = '/home/rohan/Documents/cloudledger/swarm/network/connection-org1.json';
 
 async function main() {
     try {

@@ -40,10 +40,10 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/var/hyperledger/tls/ca.crt
-      - CORE_PEER_CHAINCODELISTENADDRESS=peer0.org4.example.com:7052
+      - CORE_PEER_CHAINCODELISTENADDRESS=peer0.org4.example.com:13052
       - CORE_PEER_ID=peer0.org4.example.com
-      - CORE_PEER_ADDRESS=peer0.org4.example.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org4.example.com:7051
+      - CORE_PEER_ADDRESS=peer0.org4.example.com:13051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org4.example.com:13051
       - CORE_PEER_LOCALMSPID=Org4MSP
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0_org4:5984
@@ -64,8 +64,8 @@ services:
         aliases:
           - peer0.org4.example.com
     ports:
-      - 13051:7051
-      - 13053:7053
+      - 13051:13051
+      - 13053:13053
       
   peer1_org4:
     deploy:
@@ -99,10 +99,10 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/tls/server.crt
       - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/var/hyperledger/tls/ca.crt
-      - CORE_PEER_CHAINCODELISTENADDRESS=peer1.org4.example.com:7052
+      - CORE_PEER_CHAINCODELISTENADDRESS=peer1.org4.example.com:14052
       - CORE_PEER_ID=peer1.org4.example.com
-      - CORE_PEER_ADDRESS=peer1.org4.example.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org4.example.com:7051
+      - CORE_PEER_ADDRESS=peer1.org4.example.com:14051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org4.example.com:14051
       - CORE_PEER_LOCALMSPID=Org4MSP
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1_org4:5984
@@ -119,8 +119,8 @@ services:
     depends_on:
       - couchdb0
     ports:
-      - 14051:7051
-      - 14053:7053
+      - 14051:14051
+      - 14053:14053
     networks:
       skcript:
         aliases:
