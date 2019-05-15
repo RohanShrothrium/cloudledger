@@ -1,5 +1,5 @@
 {
-    "name": "first-network-org1",
+    "name": "skcript",
     "version": "1.0.0",
     "client": {
         "organization": "Org1",
@@ -26,6 +26,7 @@
     "peers": {
         "peer0.org1.example.com": {
             "url": "grpcs://54.187.92.33:7051",
+            "eventUrl":"grpcs://54.187.92.33:7053",
             "tlsCACerts": {
                 "path": "crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem"
             },
@@ -35,6 +36,7 @@
         },
         "peer1.org1.example.com": {
             "url": "grpcs://54.187.92.33:8051",
+            "eventUrl":"grpcs://54.187.92.33:053",
             "tlsCACerts": {
                 "path": "crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem"
             },
@@ -51,7 +53,7 @@
                 "path": "crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem"
             },
             "httpOptions": {
-                "verify": false
+                "verify": true
             }
         }
     }
