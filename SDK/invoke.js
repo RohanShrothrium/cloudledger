@@ -35,7 +35,8 @@ async function main() {
         // console.log(network)
         // Get the contract from the network.
         const contract = network.getContract('simple');
-        console.log("%o",contract.channel._clientContext)
+        contract.channel._last_refresh_request.target._grpc_wait_for_ready_timeout = 396000;
+        console.log(contract)
         // Submit the specified transaction.
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
