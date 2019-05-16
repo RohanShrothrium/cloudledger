@@ -3,7 +3,9 @@ GLOBAL_ENV_LOCATION=$PWD/scripts/.env
 source $GLOBAL_ENV_LOCATION
 
 set -ev
-
+for i in {1..5}; do
+     export BYFN_CA"${i}"_PRIVATE_KEY=$(ls crypto-config/peerOrganizations/org${i}.example.com/ca/ | grep _sk)
+done
 # ==============================
 # CREATING THE CHANNEL mychannel
 # ==============================
