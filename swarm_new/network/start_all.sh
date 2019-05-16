@@ -1,5 +1,5 @@
 for i in {1..5}; do
-     export BYFN_CA"${i}"_PRIVATE_KEY=$(ls crypto-config/peerOrganizations/org${i}.example.com/ca/ | grep _sk)
+     export BYFN_CA"${i}"_PRIVATE_KEY=$(ls /var/mynetork/certs/crypto-config/peerOrganizations/org${i}.example.com/ca/ | grep _sk)
 done
 ./scripts/network/deploy_services_kafka.sh
 ./scripts/network/deploy_services_org1.sh
