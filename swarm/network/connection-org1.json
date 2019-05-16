@@ -6,8 +6,11 @@
         "connection": {
             "timeout": {
                 "peer": {
-                    "endorser": "300"
-                }
+                    "endorser": "300000",
+                    "eventHub": "300000",
+                    "eventReg": "300000"
+                },
+                "orderer": "300000"
             }
         }
     },
@@ -25,29 +28,39 @@
     },
     "peers": {
         "peer0.org1.example.com": {
-            "url": "grpcs://54.187.92.33:7051",
-            "eventUrl":"grpcs://54.187.92.33:7053",
+            "url": "grpcs://34.222.229.116:7051",
+            "eventUrl":"grpcs://34.222.229.116:7053",
             "tlsCACerts": {
                 "path": "crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem"
             },
             "grpcOptions": {
+                "grpc.keepalive_time_ms": 120000,
+                "grpc.keepalive_timeout_ms": 20000,
+                "grpc.http2.min_time_between_pings_ms": 120000,
+                "grpc.http2.max_pings_without_data": 0,
+                "grpc.keepalive_permit_without_calls": 1,
                 "ssl-target-name-override": "peer0.org1.example.com"
             }
         },
         "peer1.org1.example.com": {
-            "url": "grpcs://54.187.92.33:8051",
-            "eventUrl":"grpcs://54.187.92.33:053",
+            "url": "grpcs://34.222.229.116:8051",
+            "eventUrl":"grpcs://34.222.229.116:8053",
             "tlsCACerts": {
                 "path": "crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem"
             },
             "grpcOptions": {
-                "ssl-target-name-override": "peer1.org1.example.com"
+                "grpc.keepalive_time_ms": 120000,
+                "grpc.keepalive_timeout_ms": 20000,
+                "grpc.http2.min_time_between_pings_ms": 120000,
+                "grpc.http2.max_pings_without_data": 0,
+                "grpc.keepalive_permit_without_calls": 1,
+                "ssl-target-name-override": "peer0.org1.example.com"
             }
         }
     },
     "certificateAuthorities": {
         "ca.org1.example.com": {
-            "url": "http://54.187.92.33:7054",
+            "url": "http://34.222.229.116:7054",
             "caName": "ca_org1",
             "tlsCACerts": {
                 "path": "crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem"
