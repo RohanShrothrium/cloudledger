@@ -55,7 +55,7 @@ ORG5_CA_PATH=$(ls /var/mynetwork/certs/crypto-config/peerOrganizations/org5.exam
 sed "$FLAG" "s/- node.hostname == .*/- node.hostname == $ORG5_HOSTNAME/g" $ORDERER1_COMPOSE_PATH
 sed "$FLAG" "s/- node.hostname == .*/- node.hostname == $ORG5_HOSTNAME/g" $PEER_ORG5_COMPOSE_PATH
 sed "$FLAG" "s/- node.hostname == .*/- node.hostname == $ORG5_HOSTNAME/g" $SERVICE_ORG5_COMPOSE_PATH
-sed "$FLAG" "s#- FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/.*#- FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/$ORG5_CA_PATH#g" $SERVICE_ORG5_COMPOSE_PATH
+sed "$FLAG" "s#- FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/.*#- FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/$ORG5_CA_PATH#g" $SERVICE_ORG$SERVICE_ORG1_COMPOSE_PATH_COMPOSE_PATH
 
 
 if [ "$ARCH" == "Darwin" ]; then
