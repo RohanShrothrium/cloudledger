@@ -41,6 +41,9 @@ services:
       - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/tls/server.key
       - CORE_PEER_TLS_ROOTCERT_FILE=/var/hyperledger/tls/ca.crt
       - CORE_PEER_CHAINCODELISTENADDRESS=peer0.org4.example.com:13052
+      - ORDERER_TLS_CLIENTROOTCAS_FILES=/var/hyperledger/users/Admin@org4.example.com/tls/ca.crt
+      - ORDERER_TLS_CLIENTCERT_FILE=/var/hyperledger/users/Admin@org4.example.com/tls/client.crt
+      - ORDERER_TLS_CLIENTKEY_FILE=/var/hyperledger/users/Admin@org4.example.com/tls/client.key
       - CORE_PEER_ID=peer0.org4.example.com
       - CORE_PEER_ADDRESS=peer0.org4.example.com:13051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=52.40.139.238:13051
@@ -103,6 +106,9 @@ services:
       - CORE_PEER_CHAINCODELISTENADDRESS=peer1.org4.example.com:14052
       - CORE_PEER_ID=peer1.org4.example.com
       - CORE_PEER_ADDRESS=peer1.org4.example.com:14051
+      - ORDERER_TLS_CLIENTROOTCAS_FILES=/var/hyperledger/users/Admin@org4.example.com/tls/ca.crt
+      - ORDERER_TLS_CLIENTCERT_FILE=/var/hyperledger/users/Admin@org4.example.com/tls/client.crt
+      - ORDERER_TLS_CLIENTKEY_FILE=/var/hyperledger/users/Admin@org4.example.com/tls/client.key
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=52.40.139.238:14051
       - CORE_PEER_LOCALMSPID=Org4MSP
       - CORE_PEER_LISTENADDRESS=0.0.0.0:14051
