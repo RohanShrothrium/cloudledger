@@ -35,7 +35,7 @@ services:
             - CORE_LOGGING_MSP=DEBUG
             # - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/msp
             # TLS settings
-            - CORE_PEER_TLS_ENABLED=true
+            - CORE_PEER_TLS_ENABLED=false
             - CORE_PEER_TLS_CLIENTAUTHREQUIRED=false
             - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/tls/server.crt
             - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/tls/server.key
@@ -96,7 +96,7 @@ services:
             - CORE_LOGGING_MSP=DEBUG
             # - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/msp
             # TLS settings
-            - CORE_PEER_TLS_ENABLED=true
+            - CORE_PEER_TLS_ENABLED=false
             - CORE_PEER_TLS_CLIENTAUTHREQUIRED=false
             - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/tls/server.crt
             - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/tls/server.key
