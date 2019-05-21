@@ -31,18 +31,18 @@ docker exec -e "CORE_PEER_LOCALMSPID=Org5MSP" -e "CORE_PEER_TLS_CERT_FILE=/opt/g
 # ===========================
 # INSTANTIATING THE CHAINCODE
 # ===========================
-docker exec "$CLI_NAME" peer chaincode instantiate -o "$ORDERER_NAME":7050 -C "$CHANNEL_NAME" -n "$CC_NAME" "$CC_SRC" -v v0  -c '{"Args":[]}' -P "AND('Org1MSP.member', 'Org2MSP.member')" --tls --cafile $ORDERER_CA
+docker exec "$CLI_NAME" peer chaincode instantiate -o "$ORDERER_NAME":7050 -C "$CHANNEL_NAME" -n "$CC_NAME" "$CC_SRC" -v v0  -c '{"Args":[]}' -P "AND('Org1MSP.member', 'Org2MSP.member')"  --cafile $ORDERER_CA
 
 sleep 3
 
 # ================================
 # LISTING THE CHAINCODES INSTALLED
 # ================================
-docker exec "$CLI_NAME" peer chaincode list --instantiated -C "$CHANNEL_NAME" --tls --cafile $ORDERER_CA
+docker exec "$CLI_NAME" peer chaincode list --instantiated -C "$CHANNEL_NAME"  --cafile $ORDERER_CA
 
 sleep 10
 
 # ================================
 # INVOKING INITLEDGER IN CHAINCODE
 # ================================
-docker exec "$CLI_NAME" peer chaincode invoke -o "$ORDERER_NAME":7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CC_NAME -c '{"Args":["init"]}'
+docker exec "$CLI_NAME" peer chaincode invoke -o "$ORDERER_NAME":7050  --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CC_NAME -c '{"Args":["init"]}'
