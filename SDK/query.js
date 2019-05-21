@@ -8,7 +8,7 @@ const { FileSystemWallet, Gateway } = require('fabric-network');
 const fs = require('fs');
 const path = require('path');
 
-const ccpPath = '/home/rohan/Documents/cloudledger/swarm/network/connection-org1.json';
+const ccpPath = '/home/rohan/Documents/cloudledger/swarm_new/network/connection-org1.json';
 const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
 const ccp = JSON.parse(ccpJSON);
 
@@ -39,7 +39,7 @@ async function main() {
         // Evaluate the specified transaction.
         // queryCar transaction - requires 1 argument, ex: ('queryCar', 'CAR4')
         // queryAllCars transaction - requires no arguments, ex: ('queryAllCars')
-        const result = await contract.evaluateTransaction('DownloadFile', 'composite_key', 'secret_key');
+        const result = await contract.evaluateTransaction('DownloadFile', 'composite_key_deepak', 'secret_key_new');
         console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
 
     } catch (error) {

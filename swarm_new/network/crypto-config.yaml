@@ -2,9 +2,11 @@ OrdererOrgs:
   - Name: Orderer
     Domain: example.com
     Specs:
-      - Hostname: orderer0
+      - Hostname: orderer
     Template:
       Count: 1
+    Specs:
+      - Hostname: orderer0
           
 PeerOrgs:
   - Name: Org1
