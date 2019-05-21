@@ -59,7 +59,7 @@ services:
           - CORE_PEER_ADDRESS=peer0.org4.example.com:7051
           - CORE_PEER_LOCALMSPID=Org4MSP
           - CORE_CHAINCODE_KEEPALIVE=10
-          - CORE_PEER_TLS_ENABLED=true
+          - CORE_PEER_TLS_ENABLED=false
           - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org4.example.com/peers/peer0.org4.example.com/tls/server.crt
           - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org4.example.com/peers/peer0.org4.example.com/tls/server.key
           - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org4.example.com/peers/peer0.org4.example.com/tls/ca.crt
