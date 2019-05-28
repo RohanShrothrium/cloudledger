@@ -8,7 +8,14 @@ ANCHOR_TX=MSPanchors_${CHANNEL_NAME}.tx
 
 # remove previous crypto material and config transactions
 rm -rf config
+rm -rf crypto-config
 mkdir config
+
+
+cryptogen generate --config=./crypto-config.yaml
+echo "\========================Generated new certs========================/"
+echo
+
 
 # generate genesis block for orderer
 configtxgen -profile OrdererGenesis -outputBlock ./config/genesis.block -channelID $CHANNEL_NAME
