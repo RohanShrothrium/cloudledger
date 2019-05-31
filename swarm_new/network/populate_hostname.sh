@@ -1,7 +1,4 @@
 #!/bin/bash
-
-set -ev
-
 ENV_LOCATION=$PWD/.env
 echo $ENV_LOCATION
 source $ENV_LOCATION
