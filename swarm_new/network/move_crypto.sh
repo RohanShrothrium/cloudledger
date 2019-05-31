@@ -9,10 +9,10 @@ mkdir -p /var/mynetwork/certs/scripts
 mkdir -p /var/mynetwork/bin
 mkdir -p /var/mynetwork/fabric-src
 
-# git clone https://github.com/hyperledger/fabric /var/mynetwork/fabric-src/hyperledger/fabric
-# cd /var/mynetwork/fabric-src/hyperledger/fabric
-# # git checkout release-1.4
-# cd -
+git clone https://github.com/hyperledger/fabric /var/mynetwork/fabric-src/hyperledger/fabric
+cd /var/mynetwork/fabric-src/hyperledger/fabric
+# git checkout release-1.4
+cd -
 cp -R crypto-config /var/mynetwork/certs/
 cp -R config /var/mynetwork/certs/
 cp -R ../chaincodes/* /var/mynetwork/chaincode/
