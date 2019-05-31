@@ -73,6 +73,7 @@ services:
             - /var/mynetwork/certs/crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto
             - /var/mynetwork/certs/config:/var/hyperledger/config
             - /var/mynetwork/bin/:/var/bin
+            - /var/mynetwork/certs/scripts/:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts
             # - /var/mynetwork/bin/jq:/usr/local/bin/jq
         networks:
             - skcript

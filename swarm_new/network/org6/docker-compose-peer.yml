@@ -17,7 +17,7 @@ services:
                 max_attempts: 3
             placement:
                 constraints:
-                    - node.hostname == 
+                    - node.hostname == ${ORG_HOSTNAME}
         image: hyperledger/fabric-peer:latest
         hostname: peer0.org6.example.com
         environment:
@@ -40,10 +40,14 @@ services:
             - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/tls/server.crt
             - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/tls/server.key
             - CORE_PEER_TLS_ROOTCERT_FILE=/var/hyperledger/tls/ca.crt
-            - CORE_PEER_CHAINCODELISTENADDRESS=peer0.org6.example.com:7052
+            - CORE_PEER_CHAINCODELISTENADDRESS=peer0.org6.example.com:17052
+            - ORDERER_TLS_CLIENTROOTCAS_FILES=/var/hyperledger/users/Admin@org6.example.com/tls/ca.crt
+            - ORDERER_TLS_CLIENTCERT_FILE=/var/hyperledger/users/Admin@org6.example.com/tls/client.crt
+            - ORDERER_TLS_CLIENTKEY_FILE=/var/hyperledger/users/Admin@org6.example.com/tls/client.key
+            - CORE_PEER_LISTENADDRESS=0.0.0.0:17051
             - CORE_PEER_ID=peer0.org6.example.com
-            - CORE_PEER_ADDRESS=peer0.org6.example.com:7051
-            - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org6.example.com:7051
+            - CORE_PEER_ADDRESS=peer0.org6.example.com:17051
+            - CORE_PEER_GOSSIP_EXTERNALENDPOINT=${ORG_IP}:17051
             - CORE_PEER_LOCALMSPID=Org6MSP
             - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
             - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0_org6:5984
@@ -64,8 +68,8 @@ services:
             aliases:
                 - peer0.org6.example.com
         ports:
-          - 17051:7051
-          - 17053:7053
+          - 17051:17051
+          - 17053:17053
 
     peer1_org6:
         deploy:
@@ -76,7 +80,7 @@ services:
                 max_attempts: 3
             placement:
                 constraints:
-                    - node.hostname == 
+                    - node.hostname == ${ORG_HOSTNAME}
         image: hyperledger/fabric-peer:latest
         hostname: peer1.org6.example.com
         environment:
@@ -84,21 +88,29 @@ services:
             - CORE_PEER_NETWORKID=skcript
             - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=skcript
             - CORE_PEER_ADDRESSAUTODETECT=true
+            # - CORE_PEER_GOSSIP_ORGLEADER=false
+            # - CORE_PEER_GOSSIP_USELEADERELECTION=true
             - CORE_PEER_PROFILE_ENABLED=true
+            #- CORE_LEDGER_STATE_STATEDATABASE=LevelDB
             - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/msp
             - CORE_LOGGING_LEVEL=CRITICAL
             - CORE_LOGGING_GOSSIP=${CORE_LOGGING_GOSSIP}
             - CORE_LOGGING_MSP=CRITICAL
+            # - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/msp
             # TLS settings
             - CORE_PEER_TLS_ENABLED=true
             - CORE_PEER_TLS_CLIENTAUTHREQUIRED=false
             - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/tls/server.crt
             - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/tls/server.key
             - CORE_PEER_TLS_ROOTCERT_FILE=/var/hyperledger/tls/ca.crt
-            - CORE_PEER_CHAINCODELISTENADDRESS=peer1.org6.example.com:7052
+            - CORE_PEER_CHAINCODELISTENADDRESS=peer1.org6.example.com:18052
             - CORE_PEER_ID=peer1.org6.example.com
-            - CORE_PEER_ADDRESS=peer1.org6.example.com:7051
-            - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org6.example.com:7051
+            - CORE_PEER_ADDRESS=peer1.org6.example.com:18051
+            - ORDERER_TLS_CLIENTROOTCAS_FILES=/var/hyperledger/users/Admin@org6.example.com/tls/ca.crt
+            - ORDERER_TLS_CLIENTCERT_FILE=/var/hyperledger/users/Admin@org6.example.com/tls/client.crt
+            - ORDERER_TLS_CLIENTKEY_FILE=/var/hyperledger/users/Admin@org6.example.com/tls/client.key
+            - CORE_PEER_GOSSIP_EXTERNALENDPOINT=${ORG_IP}:18051
+            - CORE_PEER_LISTENADDRESS=0.0.0.0:18051
             - CORE_PEER_LOCALMSPID=Org6MSP
             - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
             - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1_org6:5984
@@ -113,8 +125,8 @@ services:
         depends_on:
             - couchdb0
         ports:
-          - 18051:7051
-          - 18053:7053
+          - 18051:18051
+          - 18053:18053
         networks:
           skcript:
             aliases:
