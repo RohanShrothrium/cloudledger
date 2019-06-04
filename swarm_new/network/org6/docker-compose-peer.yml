@@ -31,11 +31,11 @@ services:
             - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/msp
             #- CORE_LEDGER_STATE_STATEDATABASE=LevelDB
             - CORE_LOGGING_LEVEL=CRITICAL
-            - CORE_LOGGING_GOSSIP=${CORE_LOGGING_GOSSIP}
+            - CORE_LOGGING_GOSSIP=true
             - CORE_LOGGING_MSP=CRITICAL
             # - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/msp
             # TLS settings
-            - CORE_PEER_TLS_ENABLED=true
+            - CORE_PEER_TLS_ENABLED=false
             - CORE_PEER_TLS_CLIENTAUTHREQUIRED=false
             - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/tls/server.crt
             - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/tls/server.key
@@ -94,11 +94,11 @@ services:
             #- CORE_LEDGER_STATE_STATEDATABASE=LevelDB
             - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/msp
             - CORE_LOGGING_LEVEL=CRITICAL
-            - CORE_LOGGING_GOSSIP=${CORE_LOGGING_GOSSIP}
+            - CORE_LOGGING_GOSSIP=true
             - CORE_LOGGING_MSP=CRITICAL
             # - CORE_PEER_MSPCONFIGPATH=/var/hyperledger/msp
             # TLS settings
-            - CORE_PEER_TLS_ENABLED=true
+            - CORE_PEER_TLS_ENABLED=false
             - CORE_PEER_TLS_CLIENTAUTHREQUIRED=false
             - CORE_PEER_TLS_CERT_FILE=/var/hyperledger/tls/server.crt
             - CORE_PEER_TLS_KEY_FILE=/var/hyperledger/tls/server.key
