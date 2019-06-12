@@ -46,7 +46,7 @@ services:
       - ORDERER_TLS_CLIENTKEY_FILE=/var/hyperledger/users/Admin@org4.example.com/tls/client.key
       - CORE_PEER_ID=peer0.org4.example.com
       - CORE_PEER_ADDRESS=peer0.org4.example.com:13051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=52.40.139.238:13051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=34.208.11.1:13051
       - CORE_PEER_LISTENADDRESS=0.0.0.0:13051
       - CORE_PEER_LOCALMSPID=Org4MSP
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
@@ -109,7 +109,7 @@ services:
       - ORDERER_TLS_CLIENTROOTCAS_FILES=/var/hyperledger/users/Admin@org4.example.com/tls/ca.crt
       - ORDERER_TLS_CLIENTCERT_FILE=/var/hyperledger/users/Admin@org4.example.com/tls/client.crt
       - ORDERER_TLS_CLIENTKEY_FILE=/var/hyperledger/users/Admin@org4.example.com/tls/client.key
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=52.40.139.238:14051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=34.208.11.1:14051
       - CORE_PEER_LOCALMSPID=Org4MSP
       - CORE_PEER_LISTENADDRESS=0.0.0.0:14051
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB

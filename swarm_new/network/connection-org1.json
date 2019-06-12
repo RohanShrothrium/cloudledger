@@ -28,8 +28,8 @@
     },
     "peers": {
         "peer0.org1.example.com": {
-            "url": "grpc://34.222.229.116:7051",
-            "eventUrl":"grpc://34.222.229.116:7053",
+            "url": "grpc://54.244.72.240:7051",
+            "eventUrl":"grpc://54.244.72.240:7053",
             "tlsCACerts": {
                 "path": "crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem"
             },
@@ -38,8 +38,8 @@
             }
         },
         "peer1.org1.example.com": {
-            "url": "grpc://34.222.229.116:8051",
-            "eventUrl":"grpc://34.222.229.116:8053",
+            "url": "grpc://54.244.72.240:8051",
+            "eventUrl":"grpc://54.244.72.240:8053",
             "tlsCACerts": {
                 "path": "crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem"
             },
@@ -50,7 +50,7 @@
     },
     "certificateAuthorities": {
         "ca.org1.example.com": {
-            "url": "http://34.222.229.116:7054",
+            "url": "http://54.244.72.240:7054",
             "caName": "ca_org1",
             "tlsCACerts": {
                 "path": "crypto-config/peerOrganizations/org1.example.com/tlsca/tlsca.org1.example.com-cert.pem"
