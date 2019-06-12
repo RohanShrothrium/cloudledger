@@ -15,7 +15,7 @@ async function main() {
         // Create a new file system based wallet for managing identities.
         const walletPath = path.join(process.cwd(), 'wallet');
         const wallet = new FileSystemWallet(walletPath);
-        console.log(`Wallet path: ${walletPath}`);
+        // console.log(`Wallet path: ${walletPath}`);
 
         // Check to see if we've already enrolled the user.
         const userExists = await wallet.exists('user2');
@@ -36,11 +36,11 @@ async function main() {
         // Get the contract from the network.
         const contract = network.getContract('simple');
         contract.channel._last_refresh_request.target._grpc_wait_for_ready_timeout = 396000;
-        console.log(contract)
+        // console.log(contract)
         // Submit the specified transaction.
         // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR10', 'Dave')
-        await contract.submitTransaction("UploadFile","composite_key_deepak","secret_key","1","10.250.1.99","2","10.250.1.95","1","10.250.1.96","2","10.250.1.97","3","10.250.1.98");
+        await contract.submitTransaction(...process.argv.slice(2));
         console.log('Transaction has been submitted');
 
         // Disconnect from the gateway.
