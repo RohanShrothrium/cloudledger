@@ -3,9 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	pb "github.com/hyperledger/fabric/protos/peer"
+	"crypto/sha256"
 )
 var (
 	fileName = "hackidf"
@@ -18,6 +18,7 @@ type HackidfChaincode struct{
 // User Structure
 type User struct{
 	Username string `json:"Username"`
+	PasswordHash [32]byte `json:"PasswordHash"`
 	Email string `json:"Email"`
 	Ph string `json:"Ph"`
 	IsVerified string `json:"IsVerified"`
@@ -26,6 +27,7 @@ type User struct{
 // Organisation Structure
 type Organisation struct{
 	OrgName string `json:"OrgName"`
+	PasswordHash [32]byte `json:"PasswordHash"`
 	IsVerified string `json:"IsVerified"`
 }
 
@@ -91,12 +93,12 @@ func CheckOrg(stub shim.ChaincodeStubInterface, OrgID string) int {
 	}else if OrgAsBytes == nil{
 		return 0
 	}
-	var Org Org
-	err = json.Unmarshal(OrgAsBytes, &Org)
+	var Organisation Organisation
+	err = json.Unmarshal(OrgAsBytes, &Organisation)
 	if err != nil {
 		return 0
 	}
-	if Org.IsVerified == "True" {
+	if Organisation.IsVerified == "True" {
         return 1
     }
 	return 0
@@ -106,9 +108,11 @@ func CheckOrg(stub shim.ChaincodeStubInterface, OrgID string) int {
 func  (t *HackidfChaincode) CreateUser(stub shim.ChaincodeStubInterface, args []string)pb.Response{
 	var UserID = args[0]
 	var Username = args[1]
-	var Email = args[2]
-	var Ph = args[3]
+	var Password = args[2]
+	var Email = args[3]
+	var Ph = args[4]
 	var IsVerified = "False"
+	PasswordHash := sha256.Sum256([]byte(Password))
 	// checking for an error or if the user already exists
 	UserAsBytes, err := stub.GetState(Username)
 	if err != nil {
@@ -116,7 +120,8 @@ func  (t *HackidfChaincode) CreateUser(stub shim.ChaincodeStubInterface, args []
 	}else if UserAsBytes != nil{
 		return shim.Error("User with current username already exists")
 	}
-	var User = &User{Username:Username, Email:Email, Ph:Ph, IsVerified:IsVerified}
+
+	var User = &User{Username:Username, PasswordHash:PasswordHash, Email:Email, Ph:Ph, IsVerified:IsVerified}
 	UserJsonAsBytes, err :=json.Marshal(User)
 	if err != nil {
 		shim.Error("Error encountered while Marshalling")
@@ -132,6 +137,11 @@ func  (t *HackidfChaincode) CreateUser(stub shim.ChaincodeStubInterface, args []
 // Do KYC for peer
 func  (t *HackidfChaincode) VerifyUser(stub shim.ChaincodeStubInterface, args []string)pb.Response{
 	var UserID = args[0]
+	var Password = args[1]
+	PasswordHash := sha256.Sum256([]byte(Password))
+	if PasswordHash != sha256.Sum256([]byte("Password")) {
+		return shim.Error("WRONG PASSWORD ALERT!")
+	}
 	UserAsBytes, err := stub.GetState(UserID)
 	if err != nil {
 		return shim.Error("Failed to get User:" + err.Error())
@@ -163,7 +173,9 @@ func  (t *HackidfChaincode) VerifyUser(stub shim.ChaincodeStubInterface, args []
 func  (t *HackidfChaincode) CreateOrg(stub shim.ChaincodeStubInterface, args []string)pb.Response{
 	var OrgID = args[0]
 	var OrgName = args[1]
+	var Password = args[2]
 	var IsVerified = "False"
+	PasswordHash := sha256.Sum256([]byte(Password))
 	// checking for an error or if the user already exists
 	OrgAsBytes, err := stub.GetState(OrgID)
 	if err != nil {
@@ -171,7 +183,7 @@ func  (t *HackidfChaincode) CreateOrg(stub shim.ChaincodeStubInterface, args []s
 	}else if OrgAsBytes != nil{
 		return shim.Error("Organisation is already registered")
 	}
-	var Organisation = &Organisation{OrgName:OrgName, IsVerified:IsVerified}
+	var Organisation = &Organisation{OrgName:OrgName, PasswordHash:PasswordHash, IsVerified:IsVerified}
 	OrgJsonAsBytes, err :=json.Marshal(Organisation)
 	if err != nil {
 		shim.Error("Error encountered while Marshalling")
@@ -187,6 +199,11 @@ func  (t *HackidfChaincode) CreateOrg(stub shim.ChaincodeStubInterface, args []s
 // Verify Organisation
 func  (t *HackidfChaincode) VerifyOrg(stub shim.ChaincodeStubInterface, args []string)pb.Response{
 	var OrgID = args[0]
+	var Password = args[1]
+	PasswordHash := sha256.Sum256([]byte(Password))
+	if PasswordHash != sha256.Sum256([]byte("Password")) {
+		return shim.Error("WRONG PASSWORD ALERT!")
+	}
 	OrgAsBytes, err := stub.GetState(OrgID)
 	if err != nil {
 		return shim.Error("Failed to get Organisation:" + err.Error())
