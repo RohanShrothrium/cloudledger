@@ -104,6 +104,44 @@ func CheckOrg(stub shim.ChaincodeStubInterface, OrgID string) int {
 	return 0
 }
 
+// Org Verify Password
+func OrgVerifyPassword(stub shim.ChaincodeStubInterface, OrgID string, Password string) int {
+	OrgAsBytes, err := stub.GetState(OrgID)
+	if err != nil {
+		return 0
+	}else if OrgAsBytes == nil{
+		return 0
+	}
+	var Organisation Organisation
+	err = json.Unmarshal(OrgAsBytes, &Organisation)
+	if err != nil {
+		return 0
+	}
+	if Organisation.PasswordHash == sha256.Sum256([]byte(Password)) {
+        return 1
+    }
+	return 0
+}
+
+// User Verify Password
+func UserVerifyPassword(stub shim.ChaincodeStubInterface, UserID string, Password string) int {
+	UserAsBytes, err := stub.GetState(UserID)
+	if err != nil {
+		return 0
+	}else if UserAsBytes == nil{
+		return 0
+	}
+	var User User
+	err = json.Unmarshal(UserAsBytes, &User)
+	if err != nil {
+		return 0
+	}
+	if User.PasswordHash == sha256.Sum256([]byte(Password)) {
+        return 1
+    }
+	return 0
+}
+
 // Adding info about a user
 func  (t *HackidfChaincode) CreateUser(stub shim.ChaincodeStubInterface, args []string)pb.Response{
 	var UserID = args[0]
@@ -232,15 +270,19 @@ func  (t *HackidfChaincode) VerifyOrg(stub shim.ChaincodeStubInterface, args []s
 func  (t *HackidfChaincode) MakeClaim(stub shim.ChaincodeStubInterface, args []string)pb.Response{
 	var Hash = args[0]
 	var UserID = args[1]
-	var OrgID = args[2]
-	var Skill = args[3]
-	var Timestamp = args[4]
+	var Password = args[2]
+	var OrgID = args[3]
+	var Skill = args[4]
+	var Timestamp = args[5]
 	var IsVerified = "False"
 	if CheckUser(stub, UserID) == 0 {
 		return shim.Error("Please finish your KYC procedure with InfoEaze.")
 	}
 	if CheckOrg(stub, OrgID) == 0 {
 		return shim.Error("Org isn't verified by InfoEaze.")
+	}
+	if UserVerifyPassword(stub, UserID, Password) == 0 {
+		return shim.Error("Password doesn't match user")
 	}
 	var Claim = &Claim{UserID:UserID, OrgID:OrgID, Skill:Skill, Comments:"NIL", Timestamp:Timestamp ,IsVerified:IsVerified}
 	ClaimJsonAsBytes, err :=json.Marshal(Claim)
@@ -258,6 +300,11 @@ func  (t *HackidfChaincode) MakeClaim(stub shim.ChaincodeStubInterface, args []s
 // Verify Claim
 func  (t *HackidfChaincode) VerifyClaim(stub shim.ChaincodeStubInterface, args []string)pb.Response{
 	var Hash = args[0]
+	var OrgID = args[1]
+	var Password = args[2]
+	if OrgVerifyPassword(stub, OrgID, Password) == 0 {
+		return shim.Error("Password doesn't match Organisation")
+	}
 	ClaimAsBytes, err := stub.GetState(Hash)
 	if err != nil {
 		return shim.Error("Failed to get Claim:" + err.Error())
