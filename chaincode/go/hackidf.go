@@ -19,6 +19,8 @@ type HackidfChaincode struct{
 type User struct{
 	Username string `json:"Username"`
 	Email string `json:"Email"`
+	Ph string `json:"Ph"`
+	IsVerified string `json:"IsVerified"`
 }
 
 // Organisation Structure
@@ -49,6 +51,8 @@ func  (t *HackidfChaincode) Invoke(stub shim.ChaincodeStubInterface)pb.Response{
 	function, args := stub.GetFunctionAndParameters()
 	if function == "CreateUser" {
 		return t.CreateUser(stub, args)
+	}else if function == "VerifyUser" {
+		return t.VerifyUser(stub, args)
 	}else if function == "CreateOrg" {
 		return t.CreateOrg(stub, args)
 	}else if function == "VerifyOrg" {
@@ -65,11 +69,46 @@ func  (t *HackidfChaincode) Invoke(stub shim.ChaincodeStubInterface)pb.Response{
 	// end of all functions
 }
 
+// Check KYC
+func CheckUser(stub shim.ChaincodeStubInterface, UserID string) int {
+	UserAsBytes, err := stub.GetState(UserID)
+	var User User
+	err = json.Unmarshal(UserAsBytes, &User)
+	if err != nil {
+		return 0
+	}
+	if User.IsVerified == "True" {
+        return 1
+	}
+	return 0
+}
+
+// Check If Org exists and is verified
+func CheckOrg(stub shim.ChaincodeStubInterface, OrgID string) int {
+	OrgAsBytes, err := stub.GetState(OrgID)
+	if err != nil {
+		return 0
+	}else if OrgAsBytes == nil{
+		return 0
+	}
+	var Org Org
+	err = json.Unmarshal(OrgAsBytes, &Org)
+	if err != nil {
+		return 0
+	}
+	if Org.IsVerified == "True" {
+        return 1
+    }
+	return 0
+}
+
 // Adding info about a user
 func  (t *HackidfChaincode) CreateUser(stub shim.ChaincodeStubInterface, args []string)pb.Response{
 	var UserID = args[0]
 	var Username = args[1]
 	var Email = args[2]
+	var Ph = args[3]
+	var IsVerified = "False"
 	// checking for an error or if the user already exists
 	UserAsBytes, err := stub.GetState(Username)
 	if err != nil {
@@ -77,7 +116,7 @@ func  (t *HackidfChaincode) CreateUser(stub shim.ChaincodeStubInterface, args []
 	}else if UserAsBytes != nil{
 		return shim.Error("User with current username already exists")
 	}
-	var User = &User{Username:Username, Email:Email}
+	var User = &User{Username:Username, Email:Email, Ph:Ph, IsVerified:IsVerified}
 	UserJsonAsBytes, err :=json.Marshal(User)
 	if err != nil {
 		shim.Error("Error encountered while Marshalling")
@@ -90,11 +129,41 @@ func  (t *HackidfChaincode) CreateUser(stub shim.ChaincodeStubInterface, args []
 	return shim.Success(nil)
 }
 
+// Do KYC for peer
+func  (t *HackidfChaincode) VerifyUser(stub shim.ChaincodeStubInterface, args []string)pb.Response{
+	var UserID = args[0]
+	UserAsBytes, err := stub.GetState(UserID)
+	if err != nil {
+		return shim.Error("Failed to get User:" + err.Error())
+	}else if UserAsBytes == nil{
+		return shim.Error("Please give a valid User-ID")
+	}
+	if CheckUser(stub, UserID) == 1 {
+		return shim.Error("The user is already verified")
+	}
+	var User User
+	err = json.Unmarshal(UserAsBytes, &User)
+	if err != nil {
+		return shim.Error("Error encountered during unmarshalling the data")
+	}
+	User.IsVerified = "True"
+	UserJsonAsBytes, err :=json.Marshal(User)
+	if err != nil {
+		return shim.Error("Error encountered while remarshalling")
+	}
+	err = stub.PutState(UserID, UserJsonAsBytes)
+	if err != nil {
+		return shim.Error("error encountered while putting state")
+	}
+	fmt.Println("VERIFIED!!")
+	return shim.Success(nil)
+}
+
 // Adding info about an Organisations
 func  (t *HackidfChaincode) CreateOrg(stub shim.ChaincodeStubInterface, args []string)pb.Response{
 	var OrgID = args[0]
 	var OrgName = args[1]
-	var IsVerified = "No"
+	var IsVerified = "False"
 	// checking for an error or if the user already exists
 	OrgAsBytes, err := stub.GetState(OrgID)
 	if err != nil {
@@ -150,6 +219,12 @@ func  (t *HackidfChaincode) MakeClaim(stub shim.ChaincodeStubInterface, args []s
 	var Skill = args[3]
 	var Timestamp = args[4]
 	var IsVerified = "False"
+	if CheckUser(stub, UserID) == 0 {
+		return shim.Error("Please finish your KYC procedure with InfoEaze.")
+	}
+	if CheckOrg(stub, OrgID) == 0 {
+		return shim.Error("Org isn't verified by InfoEaze.")
+	}
 	var Claim = &Claim{UserID:UserID, OrgID:OrgID, Skill:Skill, Comments:"NIL", Timestamp:Timestamp ,IsVerified:IsVerified}
 	ClaimJsonAsBytes, err :=json.Marshal(Claim)
 	if err != nil {
