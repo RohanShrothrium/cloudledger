@@ -108,6 +108,7 @@ updateAnchorPeers(){
 # Installing Chaincodes on each peer 
 installChaincode(){
     export CHANNEL_NAME=mychannel
+    go get github.com/hyperledger/fabric-chaincode-go/shim
     echo "INSTALLING CHAINCODE"
     echo ""
     for org in 1 2 3; do
