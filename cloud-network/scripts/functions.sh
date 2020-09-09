@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Setting up important environment variables
-ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
+ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer2.example.com/msp/tlscacerts/tlsca.example.com-cert.pem
 PEER0_ORG1_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
 PEER0_ORG2_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
 PEER0_ORG3_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/tls/ca.crt
@@ -52,8 +52,8 @@ createChannel(){
     echo "================================================="
     echo "Creating channel with channel name" $CHANNEL_NAME
     echo "================================================="
-    echo "peer channel create -o orderer.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls --cafile $ORDERER_CA >&log.txt"
-    peer channel create -o orderer.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls --cafile $ORDERER_CA >&log.txt
+    echo "peer channel create -o orderer2.example.com:8050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls --cafile $ORDERER_CA >&log.txt"
+    peer channel create -o orderer2.example.com:8050 -c $CHANNEL_NAME -f ./channel-artifacts/channel.tx --tls --cafile $ORDERER_CA >&log.txt
 	cat log.txt  
 }
 
@@ -99,7 +99,7 @@ updateAnchorPeers(){
       echo "PEER" $peer "ORG" $org "set as anchor peer."
       echo "================================================="
       setGlobals $peer $org
-      peer channel update -o orderer.example.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx --tls --cafile $ORDERER_CA
+      peer channel update -o orderer2.example.com:8050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx --tls --cafile $ORDERER_CA
       echo $org$peer "set as Anchor Peer."
     done                        
   done
@@ -108,7 +108,8 @@ updateAnchorPeers(){
 # Installing Chaincodes on each peer 
 installChaincode(){
     export CHANNEL_NAME=mychannel
-    go get github.com/hyperledger/fabric-chaincode-go/shim
+    go get github.com/hyperledger/fabric/protos/peer
+    go get github.com/hyperledger/fabric/core/chaincode/shim 
     echo "INSTALLING CHAINCODE"
     echo ""
     for org in 1 2 3; do
@@ -129,7 +130,7 @@ instantiateChaincode(){
     echo "================================================="
     echo "            INSTANTIATING CHAINCODE              "
     echo "================================================="
-    peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc -l node -v 1.0 -c '{"Args":["init"]}' -P "OR ('Org1MSP.peer','Org2MSP.peer','Org3MSP.peer')"            
+    peer chaincode instantiate -o orderer2.example.com:8050 --tls --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc -v 1.0 -c '{"Args":["init"]}' -P "OR ('Org1MSP.peer','Org2MSP.peer','Org3MSP.peer')"            
 }
 
 # setting globals
