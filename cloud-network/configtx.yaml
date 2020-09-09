@@ -383,7 +383,7 @@ Profiles:
                   ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/tls/server.crt
                 Options:
                 # TickInterval is the time interval between two Node.Tick invocations.
-                  TickInterval: 500
+                  TickInterval: 50000
 
                 # ElectionTick is the number of Node.Tick invocations that must pass
                 # between elections. That is, if a follower does not receive any
