@@ -45,4 +45,5 @@ echo "           Setting up Network             "
 echo "=========================================="
 export IMAGE_TAG=1.4.6
 docker-compose -f docker-compose-etcdraft2.yaml -f docker-compose-cli.yaml up -d
-docker exec cli scripts/functions.sh
+# docker exec cli scripts/functions.sh
+docker ps -a
